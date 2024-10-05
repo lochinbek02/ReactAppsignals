@@ -9,9 +9,12 @@ function Main({message, handleLogout}) {
       <Navbar handleLogout={handleLogout} />
       <div className="">
         <h1>{message}</h1>
+        <h1>ASDasdasdsad</h1>
       </div>
       <Footer/> 
     </div>
+
+    
   )
 }
 
