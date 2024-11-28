@@ -1,0 +1,95 @@
+.button-column1 {
+    display: inline-block;
+    flex-direction: column; /* Tugmalarni ustun ko'rinishida joylashtirish */
+    align-items: flex-start; /* Tugmalarni chapga joylashtirish */
+    margin: 20px; /* Ustunning tashqi joyi */
+  }
+  
+  h2 {
+    margin-bottom: 20px; /* "TimeField" yozuvi ostidagi bo'sh joy */
+  }
+  
+  .btn1 {
+    background-color: #4CAF50; /* Tugma rangi */
+    color: white; /* Tugma ichidagi matn rangi */
+    padding: 10px 20px; /* Tugma hajmi */
+    font-size: 16px; /* Matn o'lchami */
+    border: none; /* Chegarasiz */
+    border-radius: 5px; /* Chegarani yumaloqlash */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hover effekti uchun */
+    margin: 10px 0; /* Tugmalar orasidagi bo'sh joy */
+    width: 70px;
+    
+  }
+  
+  .btn1:hover {
+    background-color: #45a049; /* Tugmaga hover qilganda rangi o'zgarishi */
+  }
+  
+  .gssi-btn {
+    background-color: #3498db; /* GSSI tugmasi uchun rang */
+  }
+  .ok {
+    background-color: #874acc; /* GSSI tugmasi uchun rang */
+  }
+  .qisish {
+    background-color: #f00e6c; /* GSSI tugmasi uchun rang */
+  }
+  .yoyish {
+    background-color: #42aaa5; /* GSSI tugmasi uchun rang */
+  }
+  .ssi-btn {
+    background-color: #42aaa5; /* GSSI tugmasi uchun rang */
+  }
+  .var-btn {
+    background-color: #e74c3c; /* VAR tugmasi uchun rang */
+  }
+  
+  .dasd-btn {
+    background-color: #f39c12; /* DASD tugmasi uchun rang */
+  }
+  
+  .zcr-btn {
+    background-color: #9b59b6; /* ZCR tugmasi uchun rang */
+  }
+  
+  .ssc-btn {
+    background-color: #1abc9c; /* SSC tugmasi uchun rang */
+  }
+  .container1 {
+    /* display: flex; */
+    justify-content: center;
+    flex-direction: column; /* Stack title above buttons and image */
+    align-items: flex-start; /* Align items to the left */
+}
+
+.button-image-container1 {
+    display: 'flex'; /* Align buttons and image in a row */
+    align-items: flex-start; /* Align items at the start */
+    margin-left: 5%;
+    
+}
+.flex-div{
+  display: flex; /* Tugmalar va rasmni yonma-yon joylashtirish */
+    align-items: flex-start; /* Elementlarni vertikal bo'ylab boshidan tekislash */
+    margin-left: 5%; /* Chapdan bo'sh joy */
+}
+.button-column1 {
+    display: flex; /* Tugmalarni ustun qilib joylashtirish */
+    flex-direction: column;
+    gap: 10px; /* Tugmalar orasidagi bo'sh joy */
+}
+
+.image-container1 {
+    display: inline-block; /* Keeps the image container inline */
+    vertical-align: top; /* Aligns with buttons vertically */
+}
+.button-container3{
+  display: flex;
+  justify-content: center;  
+  align-items: center;    
+  gap: 20px;
+  width: 100%;
+  margin-top: 10px;
+}

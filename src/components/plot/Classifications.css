@@ -1,0 +1,148 @@
+/* Classifications.module.css */
+.classificationform {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f4f6f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+/* Classifications.css */
+.buttonClassification {
+  display: inline-block;
+  background: linear-gradient(45deg, #007bff, #00d4ff);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.buttonClassification:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(45deg, #0056b3, #00aaff);
+}
+
+.buttonClassification:active {
+  transform: translateY(0);
+}
+
+.buttonClassification:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #007bff; /* Blue */
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 2s linear infinite;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.classificationform h1 {
+  font-size: 2.5rem;
+  color: #222;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #007bff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.formClassification {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  justify-content: center;
+}
+
+.divClassification {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 10px 15px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.divClassification:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.inputClassification {
+  margin-right: 8px;
+}
+
+.inputClassification:checked + label {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.divClassification label {
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.divClassification label:hover {
+  color: #007bff;
+}
+
+.buttonClassification {
+  display: inline-block;
+  background: linear-gradient(45deg, #007bff, #00d4ff);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.buttonClassification:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(45deg, #0056b3, #00aaff);
+}
+
+.buttonClassification:active {
+  transform: translateY(0);
+}
+
+.buttonClassification:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .formClassification {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .divClassification {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttonClassification {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}
