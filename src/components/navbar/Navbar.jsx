@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Navbar.css';
+import logo from '../../../public/images/emg-signals-logo.jpg';
 import { Link } from 'react-router-dom';
 
 function Navbar({ setIsAuthenticated, isSuperAdmin }) {
@@ -19,10 +20,10 @@ function Navbar({ setIsAuthenticated, isSuperAdmin }) {
       <nav className="navbar">
         <div className="logo">
           <img
-            src="https://login.samtuit.uz/home/admins/django/static/img/illustrations/Logo.png"
-            alt="SAMTUIT"
+            src={logo}
+            alt="EMG"
           />
-          <h1>SamTUIT</h1>
+          <h1>Biosignal</h1>
         </div>
         <ul className={`nav-links ${isOpen ? 'active' : ''}`}>
           <li>
