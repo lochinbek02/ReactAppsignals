@@ -8,7 +8,7 @@ const Login = ({ message, setMessage, setIsAuthenticated,setIsSuperAdmin }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://singanlspro-production.up.railway.app/api/login/', {
+            const response = await axios.post('https://signalpro-production.up.railway.app/api/login/', {
                 username,
                 password
             });

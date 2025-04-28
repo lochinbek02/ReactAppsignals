@@ -20,7 +20,7 @@ const App = () => {
     const token = localStorage.getItem('access');
     const superAdminStatus = localStorage.getItem('isSuperAdmin');
     if (token) {
-      axios.get('https://singanlspro-production.up.railway.app/api/some_protected_route/', {
+      axios.get('https://signalpro-production.up.railway.app/api/some_protected_route/', {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then(() => {

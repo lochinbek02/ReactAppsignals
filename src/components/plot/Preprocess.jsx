@@ -33,7 +33,7 @@ function Preprocess() {
     useEffect(() => {
       const fetchZCRImage = async () => {
         if (buttonName) {
-          const response = await fetch('https://singanlspro-production.up.railway.app/api/' + categoryName + '/' + buttonName + '/');
+          const response = await fetch('https://signalpro-production.up.railway.app/api/' + categoryName + '/' + buttonName + '/');
           const data = await response.json();
           setImage(data.image); // Assuming the image data is stored in the 'image' key
         }

@@ -5,7 +5,7 @@ const ZCRComponent = () => {
 
     useEffect(() => {
         const fetchZCRImage = async () => {
-            const response = await fetch('https://singanlspro-production.up.railway.app/api/zcr/'); // Django server URL
+            const response = await fetch('https://signalpro-production.up.railway.app/api/zcr/'); // Django server URL
             const data = await response.json();
             setImage(data.image);
         };

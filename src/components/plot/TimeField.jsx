@@ -31,7 +31,7 @@ function TimeField() {
     useEffect(() => {
         const fetchZCRImage = async () => {
             if (buttonName) { // Ensure buttonName is not empty
-                const response = await fetch('https://singanlspro-production.up.railway.app/api/'+categoryName+'/' + buttonName + '/'); // Django server URL
+                const response = await fetch('https://signalpro-production.up.railway.app/api/'+categoryName+'/' + buttonName + '/'); // Django server URL
                 const data = await response.json();
                 setImage(data.image);
             }

@@ -41,7 +41,7 @@ function Frequency() {
   useEffect(() => {
     const fetchZCRImage = async () => {
       if (buttonName && categoryName) { // Faqat buttonName va categoryName mavjud bo'lsa
-        const response = await fetch(`https://singanlspro-production.up.railway.app/api/${categoryName}/${buttonName}/`);
+        const response = await fetch(`https://signalpro-production.up.railway.app/api/${categoryName}/${buttonName}/`);
         const data = await response.json();
         setImage(data.image); // Rasm ma'lumotlarini olish
       }

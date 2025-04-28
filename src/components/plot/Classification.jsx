@@ -18,7 +18,7 @@ function Classification() {
   const handleSubmit = async () => {
     setLoading(true); // Set loading to true when the submit button is clicked
     try {
-      const response = await axios.post('https://singanlspro-production.up.railway.app/api/classification/', {
+      const response = await axios.post('https://signalpro-production.up.railway.app/api/classification/', {
         features: selectedFeatures,
       }, {
         responseType: 'blob', // CSV file ni olish uchun
