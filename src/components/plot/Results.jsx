@@ -23,7 +23,7 @@ function Results() {
     formData.append('file', selectedFile);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/upload-csv/', formData, {
+      const response = await axios.post('https://signalpro-production.up.railway.app/api/upload-csv/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
