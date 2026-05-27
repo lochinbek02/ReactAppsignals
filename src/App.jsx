@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Login from './registration/Login';
-import axios from 'axios';
+import apiClient from './api';
 import Main from './components/Main';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Preprocess from './components/plot/Preprocess';
@@ -8,29 +8,22 @@ import TimeField from './components/plot/TimeField';
 import Frequency from './components/plot/Frequency';
 import Navbar from './components/navbar/Navbar';
 import Classification from './components/plot/Classification';
-import Result from './components/plot/Results';
 import Results from './components/plot/Results';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [message, setMessage] = useState('');
   const [isSuperAdmin,setIsSuperAdmin]=useState(null);
-  
+
   useEffect(() => {
     const token = localStorage.getItem('access');
     const superAdminStatus = localStorage.getItem('isSuperAdmin');
     if (token) {
-      axios.get('https://signalpro-production.up.railway.app/api/some_protected_route/', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      apiClient.get('/api/some_protected_route/')
         .then(() => {
           setIsAuthenticated(true);
           setMessage('Welcome back!');
-          if (superAdminStatus === 'true') {
-            setIsSuperAdmin(true);
-          } else {
-            setIsSuperAdmin(false);
-          }
+          setIsSuperAdmin(superAdminStatus === 'true');
         })
         .catch(() => {
           localStorage.removeItem('access');

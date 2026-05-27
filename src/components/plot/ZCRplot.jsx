@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import apiClient from '../../api';
 
 const ZCRComponent = () => {
     const [image, setImage] = useState('');
 
     useEffect(() => {
         const fetchZCRImage = async () => {
-            const response = await fetch('https://signalpro-production.up.railway.app/api/zcr/'); // Django server URL
-            const data = await response.json();
+            const { data } = await apiClient.get('/api/ok/zcr/');
             setImage(data.image);
         };
 

@@ -1,7 +1,7 @@
-import Navbar from "../navbar/Navbar";
 import React, { useState, useEffect } from 'react';
 import './TimeField.css';
 import './Preprocess.css';
+import apiClient from '../../api';
 
 function Frequency() {
   const [image, setImage] = useState('');
@@ -40,10 +40,9 @@ function Frequency() {
   // useEffect will run whenever buttonName or categoryName changes
   useEffect(() => {
     const fetchZCRImage = async () => {
-      if (buttonName && categoryName) { // Faqat buttonName va categoryName mavjud bo'lsa
-        const response = await fetch(`https://signalpro-production.up.railway.app/api/${categoryName}/${buttonName}/`);
-        const data = await response.json();
-        setImage(data.image); // Rasm ma'lumotlarini olish
+      if (buttonName && categoryName) {
+        const { data } = await apiClient.get(`/api/${categoryName}/${buttonName}/`);
+        setImage(data.image);
       }
     };
     fetchZCRImage();

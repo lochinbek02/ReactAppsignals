@@ -1,18 +1,16 @@
-import Navbar from "../navbar/Navbar";
 import React from 'react';
 import './TimeField.css';
 import './Preprocess.css';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import apiClient from '../../api';
 function Preprocess() {
   const [image, setImage] = useState('');
     const [buttonName, setButtonName] = useState('');
     const [categoryName, setCategoryName] = useState('');
     const [isCategoryClick,setCategoryClick]=useState(false)
-    const [notCategoryClick,setNotCategoryClick]=useState(true)
     const buttonClick = (e) => {
         const val = e.currentTarget.value;
-        
+
         setButtonName(val);
     }
     const buttonCategory = (e) => {
@@ -25,22 +23,21 @@ function Preprocess() {
             setImage('');
             setButtonName('')
         }
-        
+
 
         setCategoryName(val);
     }
     // This useEffect will run whenever buttonName changes
     useEffect(() => {
       const fetchZCRImage = async () => {
-        if (buttonName) {
-          const response = await fetch('https://signalpro-production.up.railway.app/api/' + categoryName + '/' + buttonName + '/');
-          const data = await response.json();
-          setImage(data.image); // Assuming the image data is stored in the 'image' key
+        if (buttonName && categoryName) {
+          const { data } = await apiClient.get(`/api/${categoryName}/${buttonName}/`);
+          setImage(data.image);
         }
       };
       setImage(''); // Clear previous image when button changes
       fetchZCRImage();
-    }, [buttonName]);
+    }, [buttonName, categoryName]);
     return (
         
         <div className="container1">
