@@ -3,47 +3,18 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-container">
-        {/* About Section */}
-        <div className="footer-section">
-          <h3>Biz haqimizda</h3>
-          <p>
-            Ushbu loyiha zamonaviy texnologiyalar va ta'limni birlashtirgan platforma bo'lib, foydalanuvchilarni 
-            o'qitish va rivojlantirish uchun mo'ljallangan.
+      <div className="container footer-inner">
+        <div className="footer-brand">
+          <div className="footer-logo">🧠 Biosignal</div>
+          <p className="footer-tagline">
+            EMG signallarini tahlil qilish va mashinaviy o&apos;qitish platformasi
           </p>
         </div>
 
-        {/* Contact Section */}
-        <div className="footer-section">
-          <h3>Kontakt ma'lumotlar</h3>
-          
-          <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-linkedin"></i>
-            </a>
-          </div>
+        <div className="footer-meta">
+          <p>&copy; {new Date().getFullYear()} Biosignal Platform</p>
+          <p>Barcha huquqlar himoyalangan</p>
         </div>
-
-        {/* Author Section */}
-        <div className="footer-section">
-          <h3>Muallif haqida</h3>
-         
-          <p>
-            Ushbu platforma foydalanuvchilarning ta'limga bo'lgan qiziqishini oshirishga qaratilgan. 
-            Har qanday savollar uchun murojaat qiling.
-          </p>
-        </div>
-      </div>
-
-      {/* Footer Bottom */}
-      <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Barcha huquqlar himoyalangan </p>
       </div>
     </footer>
   );

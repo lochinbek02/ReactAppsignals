@@ -1,83 +1,110 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import apiClient from '../api';
-import './Login.css'
-const Login = ({ message, setMessage, setIsAuthenticated,setIsSuperAdmin }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+import './Login.css';
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await apiClient.post('/api/login/', {
-                username,
-                password
-            });
+function Login({ message, setMessage, setIsAuthenticated, setIsSuperAdmin }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-            // Tokenlarni localStoragega saqlash
-            localStorage.setItem('access', response.data.access);
-            if (response.data.refresh) {
-                localStorage.setItem('refresh', response.data.refresh);
-            }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
 
-            // Superuser yoki staff ekanligini tekshirish
-            const isSuperuser = response.data.is_superuser;  // True bo'lsa superuser
-            const isStaff = response.data.is_staff;          // True bo'lsa oddiy admin
+    try {
+      const { data } = await apiClient.post('/api/login/', { username, password });
 
-            if (isSuperuser) {
-                setMessage('Super Admin login successful!');
-                setIsSuperAdmin(true);
-                localStorage.setItem('isSuperAdmin', 'true');
-            } else if (isStaff) {
-                setMessage('Staff Admin login successful!');
-                setIsSuperAdmin(false);
-                localStorage.setItem('isSuperAdmin', 'false');
-            } else {
-                setMessage('Login successful!');
-                setIsSuperAdmin(false);
-                localStorage.setItem('isSuperAdmin', 'false');
-            }
+      localStorage.setItem('access', data.access);
+      if (data.refresh) {
+        localStorage.setItem('refresh', data.refresh);
+      }
 
-            setIsAuthenticated(true);  // isAuthenticated qiymatini true qilamiz
-        } catch (error) {
-            setMessage('Login failed');
-        }
-        setUsername('');
-        setPassword('');
-    };
+      const isSuper = Boolean(data.is_superuser);
+      const isStaff = Boolean(data.is_staff);
+      const isAdmin = isSuper || isStaff;
 
-    return (
-       
-            
-            <div className="homewrappper">
-            <div className="wrapper">
-                <form className="form-signin" onSubmit={handleSubmit}>
-                    <h2 className="form-signin-heading">Please login</h2>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="username"
-                        placeholder="Username"
-                        autoFocus
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        className="form-control"
-                        name="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button className="wrapperbtn wrapperbtn-lg wrapperbtn-primary wrapperbtn-block" type="submit">Login</button>
-                    {message && <p className="login-message">{message}</p>}
-                </form>
-            </div>
-            </div>
-        
-    );
-};
+      setIsSuperAdmin(isAdmin);
+      localStorage.setItem('isSuperAdmin', isAdmin ? 'true' : 'false');
+
+      setMessage(
+        isSuper
+          ? 'Super Admin sifatida kirdingiz'
+          : isStaff
+          ? 'Admin sifatida kirdingiz'
+          : 'Tizimga muvaffaqiyatli kirdingiz'
+      );
+      setIsAuthenticated(true);
+    } catch (error) {
+      setMessage('Login muvaffaqiyatsiz. Username/parolni tekshiring.');
+    } finally {
+      setLoading(false);
+      setPassword('');
+    }
+  };
+
+  return (
+    <div className="login-page">
+      <div className="login-bg-shape login-bg-shape-1" aria-hidden="true" />
+      <div className="login-bg-shape login-bg-shape-2" aria-hidden="true" />
+      <div className="login-bg-shape login-bg-shape-3" aria-hidden="true" />
+
+      <div className="login-card fade-in-up">
+        <div className="login-brand">
+          <div className="login-logo">🧠</div>
+          <h1 className="login-title">Biosignal</h1>
+          <p className="login-subtitle">EMG signallarini tahlil qilish platformasi</p>
+        </div>
+
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="login-field">
+            <label htmlFor="username">Foydalanuvchi nomi</label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              autoFocus
+              autoComplete="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="login-field">
+            <label htmlFor="password">Parol</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button className="login-submit" type="submit" disabled={loading}>
+            {loading ? (
+              <span className="login-loader">
+                <span className="login-loader-dot" />
+                <span className="login-loader-dot" />
+                <span className="login-loader-dot" />
+              </span>
+            ) : (
+              'Tizimga kirish'
+            )}
+          </button>
+
+          {message && (
+            <p className={`login-message ${message.includes('muvaffaqiyatsiz') ? 'is-error' : 'is-success'}`}>
+              {message}
+            </p>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+}
 
 export default Login;

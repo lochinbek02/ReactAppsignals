@@ -1,0 +1,45 @@
+.plot-page {
+  background:
+    radial-gradient(ellipse at top, rgba(99, 102, 241, 0.06), transparent 50%),
+    var(--color-bg);
+}
+
+.plot-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.plot-eyebrow {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--color-accent-dark);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.plot-header h1 {
+  margin-bottom: var(--space-3);
+}
+
+.plot-header p {
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+.plot-section {
+  margin-bottom: var(--space-6);
+}
+
+.plot-step-title {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+}

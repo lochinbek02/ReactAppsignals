@@ -1,82 +1,81 @@
-import React from 'react';
-import './TimeField.css';
-import './Preprocess.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import apiClient from '../../api';
+import CategorySelector from '../shared/CategorySelector';
+import FeatureGrid from '../shared/FeatureGrid';
+import PlotCanvas from '../shared/PlotCanvas';
+import './PlotPage.css';
+
+const PREPROCESS_OPTIONS = [
+  { value: 'scaling', label: 'Scaling' },
+  { value: 'filtering', label: 'Filtering' },
+];
+
 function Preprocess() {
+  const [category, setCategory] = useState('');
+  const [feature, setFeature] = useState('');
   const [image, setImage] = useState('');
-    const [buttonName, setButtonName] = useState('');
-    const [categoryName, setCategoryName] = useState('');
-    const [isCategoryClick,setCategoryClick]=useState(false)
-    const buttonClick = (e) => {
-        const val = e.currentTarget.value;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-        setButtonName(val);
-    }
-    const buttonCategory = (e) => {
-        const val = e.currentTarget.value;
-        if(isCategoryClick){
-            setCategoryClick(false)
-        }
-        else{
-            setCategoryClick(true);
-            setImage('');
-            setButtonName('')
-        }
+  useEffect(() => {
+    if (!category || !feature) return;
 
+    let cancelled = false;
+    setLoading(true);
+    setError('');
+    setImage('');
 
-        setCategoryName(val);
-    }
-    // This useEffect will run whenever buttonName changes
-    useEffect(() => {
-      const fetchZCRImage = async () => {
-        if (buttonName && categoryName) {
-          const { data } = await apiClient.get(`/api/${categoryName}/${buttonName}/`);
-          setImage(data.image);
-        }
-      };
-      setImage(''); // Clear previous image when button changes
-      fetchZCRImage();
-    }, [buttonName, categoryName]);
-    return (
-        
-        <div className="container1">
-            <div style={{textAlign:'center',width:'100%'}}>
-              <h1>Preprocess</h1>
-              <br />
-              <h1>Kategoriyalardan birini tanlang</h1></div>
-            <div className="button-container3" >
-                
-                <button className="btn2 ok" value='ok' onClick={buttonCategory} > OK 👌</button>
-                <button className="btn2 qisish" value='qisish' onClick={buttonCategory}> Qo'lni qisish ✊</button>
+    apiClient
+      .get(`/api/${category}/${feature}/`)
+      .then(({ data }) => {
+        if (!cancelled) setImage(data.image);
+      })
+      .catch(() => {
+        if (!cancelled) setError('Grafikni yuklab bo\'lmadi. Internetni yoki server holatini tekshiring.');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
-                <button className="btn2 yoyish" value='yoyish' onClick={buttonCategory}>Qo'lni yoyish 🫴</button>
-            </div>
-            
-            {isCategoryClick ?( <div className="button-image-container1">
-           
-            <div className="preprocessing-container1">
+    return () => {
+      cancelled = true;
+    };
+  }, [category, feature]);
 
-              <button className="btn scaling-btn" value="scaling" onClick={buttonClick}>Scaling</button>
-              <button className="btn filtering-btn" value="filtering" onClick={buttonClick}>Filtering</button>
-              </div>
+  return (
+    <main className="plot-page page">
+      <div className="container">
+        <header className="plot-header">
+          <span className="plot-eyebrow">Preprocess</span>
+          <h1>Signalni oldindan tayyorlash</h1>
+          <p>Scaling yoki Filtering orqali signalni ish uchun moslang.</p>
+        </header>
 
-                <div className="image-container1" style={{ padding: '10px', marginLeft: '20px' }}>
-                {image && (
-                  <img
-                    src={`data:image/png;base64,${image}`}
-                    alt=""
-                    style={{ maxWidth: '100%', maxHeight: '400px' }}
-                  />
-                )}
-                </div>
-            </div>):<div className="button-column1"></div>}
-        </div>
-        
-      
-      
-    );
-  }
-  
-  export default Preprocess;
-  
+        <section className="plot-section">
+          <h2 className="plot-step-title">1. Gestura turini tanlang</h2>
+          <CategorySelector value={category} onChange={(v) => { setCategory(v); setFeature(''); setImage(''); }} />
+        </section>
+
+        {category && (
+          <section className="plot-section fade-in">
+            <h2 className="plot-step-title">2. Operatsiyani tanlang</h2>
+            <FeatureGrid features={PREPROCESS_OPTIONS} value={feature} onChange={setFeature} />
+          </section>
+        )}
+
+        {category && (
+          <section className="plot-section fade-in">
+            <PlotCanvas
+              image={image}
+              loading={loading}
+              error={error}
+              emptyMessage="Operatsiyani tanlasangiz natija shu yerda ko'rinadi"
+            />
+          </section>
+        )}
+      </div>
+    </main>
+  );
+}
+
+export default Preprocess;

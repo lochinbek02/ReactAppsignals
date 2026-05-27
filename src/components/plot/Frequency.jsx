@@ -1,84 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import './TimeField.css';
-import './Preprocess.css';
+import { useEffect, useState } from 'react';
 import apiClient from '../../api';
+import CategorySelector from '../shared/CategorySelector';
+import FeatureGrid from '../shared/FeatureGrid';
+import PlotCanvas from '../shared/PlotCanvas';
+import './PlotPage.css';
+
+const FREQUENCY_FEATURES = [
+  { value: 'Fourier', label: 'FFT' },
+];
 
 function Frequency() {
+  const [category, setCategory] = useState('');
+  const [feature, setFeature] = useState('');
   const [image, setImage] = useState('');
-  const [buttonName, setButtonName] = useState('');
-  const [categoryName, setCategoryName] = useState('');
-  const [isCategoryClick, setCategoryClick] = useState(false);
-  const [isButtonClick, setButtonClick] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const buttonClick = (e) => {
-    const val = e.currentTarget.value;
-
-    // Agar FFT tugmasi bosilgan bo'lsa
-    if (val === 'Fourier') {
-      // Agar isButtonClick true bo'lsa, grafikni yashirish
-      if (isButtonClick) {
-        setButtonClick(false);
-        setButtonName('')
-      } else {
-        setButtonClick(true);
-        setButtonName(val); // FFT tugmasini bosganini saqlash
-      }
-    }
-  }
-
-  const buttonCategory = (e) => {
-    const val = e.currentTarget.value;
-    setCategoryClick(!isCategoryClick);
-    if (!isCategoryClick) {
-      setCategoryName(val);
-      setImage(''); // Tanlangan kategoriya o'zgarganda grafikni tozalash
-    } else {
-      setCategoryName('');
-    }
-  }
-
-  // useEffect will run whenever buttonName or categoryName changes
   useEffect(() => {
-    const fetchZCRImage = async () => {
-      if (buttonName && categoryName) {
-        const { data } = await apiClient.get(`/api/${categoryName}/${buttonName}/`);
-        setImage(data.image);
-      }
+    if (!category || !feature) return;
+
+    let cancelled = false;
+    setLoading(true);
+    setError('');
+    setImage('');
+
+    apiClient
+      .get(`/api/${category}/${feature}/`)
+      .then(({ data }) => {
+        if (!cancelled) setImage(data.image);
+      })
+      .catch(() => {
+        if (!cancelled) setError('Grafikni yuklab bo\'lmadi. Internetni yoki server holatini tekshiring.');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
     };
-    fetchZCRImage();
-  }, [buttonName, categoryName]);
+  }, [category, feature]);
 
   return (
-    <div className="container1">
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <h1>Chastota sohasi</h1>
-        <br />
-        <h1>Kategoriyalardan birini tanlang</h1>
-      </div>
-      <div className="button-container3">
-        <button className="btn2 ok" value='ok' onClick={buttonCategory}> OK 👌</button>
-        <button className="btn2 qisish" value='qisish' onClick={buttonCategory}> Qo'lni qisish ✊</button>
-        <button className="btn2 yoyish" value='yoyish' onClick={buttonCategory}>Qo'lni yoyish 🫴</button>
-      </div>
+    <main className="plot-page page">
+      <div className="container">
+        <header className="plot-header">
+          <span className="plot-eyebrow">Chastota sohasi</span>
+          <h1>Fourier transformatsiyasi</h1>
+          <p>Signalning chastota tarkibini FFT yordamida tahlil qiling.</p>
+        </header>
 
-      {isCategoryClick && (
-        <div className="button-image-container1">
-          <div className="preprocessing-container1">
-            <button className="btn1 gssi-btn" value="Fourier" onClick={buttonClick}>FFT</button>
-          </div>
+        <section className="plot-section">
+          <h2 className="plot-step-title">1. Gestura turini tanlang</h2>
+          <CategorySelector value={category} onChange={(v) => { setCategory(v); setFeature(''); setImage(''); }} />
+        </section>
 
-          <div className="image-container1" style={{ padding: '10px', marginLeft: '20px' }}>
-            {isButtonClick && image && ( // Faqat isButtonClick true bo'lsa va image mavjud bo'lsa ko'rsatish
-              <img
-                src={`data:image/png;base64,${image}`}
-                alt=""
-                style={{ maxWidth: '100%', maxHeight: '400px' }}
-              />
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+        {category && (
+          <section className="plot-section fade-in">
+            <h2 className="plot-step-title">2. Transformatsiyani tanlang</h2>
+            <FeatureGrid features={FREQUENCY_FEATURES} value={feature} onChange={setFeature} />
+          </section>
+        )}
+
+        {category && (
+          <section className="plot-section fade-in">
+            <PlotCanvas
+              image={image}
+              loading={loading}
+              error={error}
+              emptyMessage="FFT'ni tanlasangiz spektr shu yerda ko'rinadi"
+            />
+          </section>
+        )}
+      </div>
+    </main>
   );
 }
 

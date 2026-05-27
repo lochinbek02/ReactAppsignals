@@ -1,64 +1,80 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import './Navbar.css';
-import logo from '../../../public/images/emg-signals-logo.jpg';
-import { Link } from 'react-router-dom';
 
 function Navbar({ setIsAuthenticated, isSuperAdmin }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    localStorage.removeItem('isSuperAdmin');
     setIsAuthenticated(false);
   };
 
+  const closeMenu = () => setIsOpen(false);
+
   return (
-    <header>
-      <nav className="navbar">
-        <div className="logo">
-          <img
-            src={logo}
-            alt="EMG"
-          />
-          <h1>Biosignal</h1>
-        </div>
-        <ul className={`nav-links ${isOpen ? 'active' : ''}`}>
+    <header className="navbar-header">
+      <nav className="navbar container">
+        <Link to="/" className="navbar-brand" onClick={closeMenu}>
+          <span className="navbar-logo" aria-hidden="true">🧠</span>
+          <span className="navbar-name">Biosignal</span>
+        </Link>
+
+        <ul className={`navbar-links ${isOpen ? 'is-open' : ''}`}>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/" end onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+              Bosh sahifa
+            </NavLink>
           </li>
           <li>
-            <Link to="/timefield">Vaqt sohasi</Link>
+            <NavLink to="/timefield" onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+              Vaqt sohasi
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/preprocess" onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+              Preprocess
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/frequency" onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+              Chastota
+            </NavLink>
           </li>
           {isSuperAdmin && (
             <>
               <li>
-                <Link to="/classification">Classification</Link>
+                <NavLink to="/classification" onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+                  Classification
+                </NavLink>
               </li>
               <li>
-                <Link to="/resultsClassification">Result-Classification</Link>
+                <NavLink to="/resultsClassification" onClick={closeMenu} className={({ isActive }) => isActive ? 'is-active' : ''}>
+                  Natijalar
+                </NavLink>
               </li>
             </>
           )}
-          <li>
-            <Link to="/preprocess">Preprocess</Link>
-          </li>
-          <li>
-            <Link to="/frequency">Chastota sohasi</Link>
-          </li>
-          <li>
-            <button className="logout-btn" onClick={handleLogout}>
-              Logout
+          <li className="navbar-actions">
+            <button type="button" className="navbar-logout" onClick={handleLogout}>
+              Chiqish
             </button>
           </li>
         </ul>
-        <div className={`hamburger ${isOpen ? 'hamburger-active' : ''}`} onClick={toggleMenu}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </div>
+
+        <button
+          type="button"
+          className={`navbar-hamburger ${isOpen ? 'is-open' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Menyu"
+          aria-expanded={isOpen}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </nav>
     </header>
   );
